@@ -7,10 +7,31 @@ import (
 	"time"
 )
 
+type suit int
+
+const (
+	club = suit(iota)
+	spade
+	diamond
+	heart
+)
+
 type card struct {
-	suit   int
+	suit   suit
 	number int
 	trump  bool
+}
+
+// String method for cards returns the number-suit of the card
+func (c card) String() string {
+	return fmt.Sprintf("%d-%s", c.number, Suit(c.suit))
+}
+
+// Suit returns the suit as a string
+func Suit(suit suit) string {
+	suits := []string{"club", "spade", "diamond", "heart"}
+
+	return suits[suit]
 }
 
 type deck []card
@@ -37,7 +58,7 @@ func createDeck(playerCount int) deck {
 	for i := 0; i < 12; i++ {
 		for n := 0; n < 4; n++ {
 			card := card{
-				suit:   n,
+				suit:   suit(n),
 				number: i,
 			}
 			deck = append(deck, card)
@@ -91,7 +112,7 @@ func (d deck) deal() (deckAfterDeal deck, players players) {
 	return d[25:], players
 }
 
-func (d deck) trump(players players) (deck, int) {
+func (d deck) trump(players players) (deck, suit) {
 	// Player 0 will always be dealer for now...
 	players[0].hand = append(players[0].hand, d[0])
 
@@ -100,7 +121,7 @@ func (d deck) trump(players players) (deck, int) {
 	return d[1:], d[0].suit
 }
 
-func (p players) trump(trumpSuit int) players {
+func (p players) trump(trumpSuit suit) players {
 	for i := range p {
 		for j := range p[i].hand {
 			if p[i].hand[j].suit == trumpSuit {
@@ -121,23 +142,23 @@ func main() {
 	// fmt.Println(deck)
 
 	shuffledDeck := deck.shuffle()
-	fmt.Println(shuffledDeck)
+	fmt.Printf("shuffledDeck: %s", shuffledDeck)
 
 	remainingDeck, players := deck.deal()
 	fmt.Println(players)
 
-	fmt.Println(len(remainingDeck))
+	fmt.Printf("there are: %d cards remaining\n", len(remainingDeck))
 
 	// Get the trump card, update remainingDeck
 	remainingDeck, trumpSuit := remainingDeck.trump(players)
 
-	fmt.Println(len(remainingDeck))
+	fmt.Printf("there are: %d cards remaining\n", len(remainingDeck))
 
 	// Update hands with trump type
 	players = players.trump(trumpSuit)
 
 	for i := range players {
-		log.Println(players[i])
+		log.Printf("Player %d: %s", i, players[i].hand)
 	}
 
 }
