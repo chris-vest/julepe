@@ -10,7 +10,7 @@ import (
 type suit int
 
 const (
-	club = suit(iota)
+	bastos = suit(iota)
 	spade
 	diamond
 	heart
