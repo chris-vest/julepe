@@ -13,7 +13,7 @@ const (
 	bastos = suit(iota)
 	oros
 	copas
-	heart
+	espadas
 )
 
 type card struct {
