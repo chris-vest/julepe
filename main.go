@@ -13,18 +13,35 @@ const (
 	bastos = suit(iota)
 	oros
 	copas
-	espadas
+	// espadas
+)
+
+type cardValue int
+
+// we _never_ play with 8 and 9
+const (
+	two = cardValue(iota)
+	four
+	five
+	six
+	seven
+	jack
+	knight
+	king
+	three
+	one
 )
 
 type card struct {
-	suit   suit
-	number int
-	trump  bool
+	suit      suit
+	number    cardValue
+	cardValue cardValue
+	trump     bool
 }
 
 // String method for cards returns the number-suit of the card
 func (c card) String() string {
-	return fmt.Sprintf("%d-%s", c.number, Suit(c.suit))
+	return fmt.Sprintf("%s-%s", CardValue(c.number), Suit(c.suit))
 }
 
 // Suit returns the suit as a string
@@ -32,6 +49,14 @@ func Suit(suit suit) string {
 	suits := []string{"bastos", "oros", "copas", "espadas"}
 
 	return suits[suit]
+}
+
+// CardValue returns the number as a string, i.e. the actual
+// value of the card
+func CardValue(number cardValue) string {
+	numbers := []string{"two", "four", "five", "six", "seven", "ten", "eleven", "twelve", "three", "one"}
+
+	return numbers[number]
 }
 
 type deck []card
@@ -55,11 +80,12 @@ func createDeck(playerCount int) deck {
 	var deck []card
 
 	// Loop over each type and suit appending to the deck
-	for i := 0; i < 12; i++ {
-		for n := 0; n < 4; n++ {
+	for i := 0; i < 10; i++ {
+		// 3 suits
+		for n := 0; n < 3; n++ {
 			card := card{
 				suit:   suit(n),
-				number: i,
+				number: cardValue(i),
 			}
 			deck = append(deck, card)
 		}
@@ -116,7 +142,7 @@ func (d deck) trump(players players) (deck, suit) {
 	// Player 0 will always be dealer for now...
 	players[0].hand = append(players[0].hand, d[0])
 
-	log.Println("trump card:", d[0])
+	log.Println("trump card:", d[0].String())
 
 	return d[1:], d[0].suit
 }
@@ -142,7 +168,7 @@ func main() {
 	// fmt.Println(deck)
 
 	shuffledDeck := deck.shuffle()
-	fmt.Printf("shuffledDeck: %s", shuffledDeck)
+	fmt.Printf("shuffled deck: %s", shuffledDeck)
 
 	remainingDeck, players := deck.deal()
 	fmt.Println(players)
