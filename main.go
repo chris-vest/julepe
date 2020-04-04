@@ -12,7 +12,7 @@ type suit int
 const (
 	bastos = suit(iota)
 	oros
-	diamond
+	copas
 	heart
 )
 
