@@ -9,6 +9,8 @@ import (
 
 type suit int
 
+// 3 suits for 5 people
+// should be 30 cards total
 const (
 	bastos = suit(iota)
 	oros
@@ -33,10 +35,9 @@ const (
 )
 
 type card struct {
-	suit      suit
-	number    cardValue
-	cardValue cardValue
-	trump     bool
+	suit   suit
+	number cardValue
+	trump  bool
 }
 
 // String method for cards returns the number-suit of the card
@@ -186,5 +187,4 @@ func main() {
 	for i := range players {
 		log.Printf("Player %d: %s", i, players[i].hand)
 	}
-
 }
