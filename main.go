@@ -29,7 +29,7 @@ func (c card) String() string {
 
 // Suit returns the suit as a string
 func Suit(suit suit) string {
-	suits := []string{"club", "spade", "diamond", "heart"}
+	suits := []string{"bastos", "oros", "copas", "espadas"}
 
 	return suits[suit]
 }
