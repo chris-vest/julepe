@@ -67,14 +67,15 @@ type hand []card
 type player struct {
 	hand     hand
 	isDealer bool
-	wallet   int
+	wallet   float32
 }
 
 type players []player
 
 type table struct {
-	pot      int
-	discards []card
+	pot       float32
+	leftovers []card
+	discards  []card
 }
 
 func createDeck(playerCount int) deck {
@@ -113,7 +114,6 @@ func (d deck) shuffle() deck {
 	return d
 }
 
-// func (d deck) deal(players int) {
 func (d deck) deal() (deckAfterDeal deck, players players) {
 
 	players = make([]player, 5)
@@ -160,10 +160,30 @@ func (p players) trump(trumpSuit suit) players {
 	return p
 }
 
+func (p player) addToPot() player {
+	// make sure the player can afford it somewhere
+	p.wallet = p.wallet - 0.5
+	return p
+}
+
+// All adds 0.50 from all players to the pot
+func (t table) All(p players) table {
+	for i := range p {
+		t.pot = t.pot + 0.5
+		p[i].addToPot()
+	}
+
+	return t
+}
+
 func main() {
 	fmt.Println("Julepe!")
 
 	playerCount := 5
+
+	table := table{
+		pot: 0,
+	}
 
 	deck := createDeck(playerCount)
 	// fmt.Println(deck)
@@ -187,4 +207,23 @@ func main() {
 	for i := range players {
 		log.Printf("Player %d: %s", i, players[i].hand)
 	}
+
+	table = table.All(players)
+
+	fmt.Printf("table: %v", table)
+
+	// players decide to play the round, or not - create discard pile
+	// of hands of players not playing the round
+
+	// all players who are playing can discard cards and draw
+	// firstly from the leftovers, then the discard pile (shuffled)
+
+	// dealer discards 6th card so he has 5 cards
+
+	// dealer player number + 1 starts by playing a card
+	// the remaining players play a card
+
+	// continue until no cards left in hands
+
+	// figure out who won - depending on type of win, assess what to do with pot value
 }
