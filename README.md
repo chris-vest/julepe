@@ -132,9 +132,11 @@ If the dealer loses, he must pay the value of the pot to the pot: i.e. _the pot 
 
 ## TO DO 
 
+* Split up `main.go`, it's a mess!
 * Find a way of selecting a dealer each round
 * Pot system (table and players)
 
 Complex:
 
-* Probablity system for which card is best to play (machine learning?)
+* Probablity system for which card is best to play
+* Some kind of "learning mode" where a player can be shown which card is best to play - probablity values?
