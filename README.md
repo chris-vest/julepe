@@ -136,6 +136,8 @@ If the dealer loses, he must pay the value of the pot to the pot: i.e. _the pot 
 * Find a way of selecting a dealer each round
 * Pot system (table and players)
 
+* Iota const seems broken now it's in a package... needs investigating
+
 Complex:
 
 * Probablity system for which card is best to play
