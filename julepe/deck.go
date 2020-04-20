@@ -17,9 +17,10 @@ const (
 	Bastos = Suit(iota)
 	Oros
 	Copas
-	// espadas
+	// Espadas
 )
 
+// CardValue is the numerical value of the card, from 0 - 9
 type CardValue int
 
 // we _never_ play with 8 and 9
@@ -36,6 +37,8 @@ const (
 	One
 )
 
+// Card struct contains suit, number and
+//   if suit is of type trump for the round
 type Card struct {
 	Suit   Suit
 	Number CardValue
@@ -49,23 +52,21 @@ func (c Card) String() string {
 
 // SuitString returns the suit as a string
 func SuitString(suit Suit) string {
-	suits := []string{"Bastos", "Oros", "Copas"}
+	Suits := []string{"Bastos", "Oros", "Copas"}
 
-	return suits[suit]
+	return Suits[suit]
 }
 
 // CardValueString returns the number as a string, i.e. the actual
 // value of the card
 func CardValueString(number CardValue) string {
-	numbers := []string{"Two", "Four", "Five", "Six", "Seven", "Ten", "Eleven", "Twelve", "Three", "One"}
+	Numbers := []string{"Two", "Four", "Five", "Six", "Seven", "Ten", "Eleven", "Twelve", "Three", "One"}
 
-	return numbers[number]
+	return Numbers[number]
 }
 
 // CreateDeck returns a new deck of cards
-func CreateDeck(playerCount int) Deck {
-	var deck []Card
-
+func CreateDeck(playerCount int) (deck Deck) {
 	// Loop over each type and suit appending to the deck
 	for i := 0; i < 10; i++ {
 		// 3 suits

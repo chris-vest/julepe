@@ -39,9 +39,9 @@ func main() {
 	// Update player hands with trump type
 	players = players.Trump(trumpSuit)
 
-	for i := range players {
-		log.Printf("player %d: %s", i, players[i].Hand)
-	}
+	// for i := range players {
+	// 	log.Printf("player %d: %s", i, players[i].Hand)
+	// }
 
 	// ask players if they want to play
 	players = players.PlayRound()
