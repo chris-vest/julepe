@@ -135,6 +135,7 @@ If the dealer loses, he must pay the value of the pot to the pot: i.e. _the pot 
 * Split up `main.go`, it's a mess!
 * Find a way of selecting a dealer each round
 * Pot system (table and players)
+* Tests you scrub!
 
 * Iota const seems broken now it's in a package... needs investigating
 

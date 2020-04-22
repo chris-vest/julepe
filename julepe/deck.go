@@ -20,12 +20,9 @@ const (
 	// Espadas
 )
 
-// CardValue is the numerical value of the card, from 0 - 9
-type CardValue int
-
 // we _never_ play with 8 and 9
 const (
-	Two = CardValue(iota)
+	Two = iota
 	Four
 	Five
 	Six
@@ -41,28 +38,28 @@ const (
 //   if suit is of type trump for the round
 type Card struct {
 	Suit   Suit
-	Number CardValue
+	Number int
 	Trump  bool
 }
 
 // String method for cards returns the number-suit of the card
 func (c Card) String() string {
-	return fmt.Sprintf("%s-%s", CardValue(c.Number), Suit(c.Suit))
+	return fmt.Sprintf("%s-%s", c.StringCardValue(), c.Suit.String())
 }
 
 // SuitString returns the suit as a string
-func SuitString(suit Suit) string {
+func (s Suit) String() string {
 	Suits := []string{"Bastos", "Oros", "Copas"}
 
-	return Suits[suit]
+	return Suits[s]
 }
 
 // CardValueString returns the number as a string, i.e. the actual
 // value of the card
-func CardValueString(number CardValue) string {
+func (c Card) StringCardValue() string {
 	Numbers := []string{"Two", "Four", "Five", "Six", "Seven", "Ten", "Eleven", "Twelve", "Three", "One"}
 
-	return Numbers[number]
+	return Numbers[c.Number]
 }
 
 // CreateDeck returns a new deck of cards
@@ -73,7 +70,7 @@ func CreateDeck(playerCount int) (deck Deck) {
 		for n := 0; n < 3; n++ {
 			card := Card{
 				Suit:   Suit(n),
-				Number: CardValue(i),
+				Number: i,
 			}
 			deck = append(deck, card)
 		}

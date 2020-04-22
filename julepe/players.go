@@ -8,7 +8,7 @@ import (
 )
 
 type Player struct {
-	Hand     Hand
+	Hand     []Card
 	IsDealer bool
 	Playing  bool
 	Wallet   float32
@@ -34,10 +34,21 @@ func (p Players) PlayRound() Players {
 	for i := range p {
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Printf("Player %v. Your hand: %s", i, p[i].Hand)
-		text, _ := reader.ReadString('\n')
-		if strings.Contains("yes", text) {
+		answer, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println(err)
+			fmt.Println("Go away, you're too dumb to play - and your computer sucks")
+			p[i].Playing = false
+			continue
+		}
+		answer = strings.ToLower(answer)
+		// definitely check error your scrub
+		if strings.HasPrefix(answer, "y") || strings.HasPrefix(answer, "s") {
 			p[i].Playing = true
+		} else if strings.HasPrefix(answer, "n") {
+			p[i].Playing = false
 		} else {
+			fmt.Println("Go away, you're too dumb to play - you can't even type")
 			p[i].Playing = false
 		}
 	}
