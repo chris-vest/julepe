@@ -43,6 +43,7 @@ func main() {
 	// 	log.Printf("player %d: %s", i, players[i].Hand)
 	// }
 
+	// players decide to play the round, or not
 	// ask players if they want to play
 	players = players.PlayRound()
 
@@ -52,7 +53,7 @@ func main() {
 		}
 	}
 
-	// players decide to play the round, or not - create discard pile
+	// create discard pile
 	// of hands of players not playing the round
 
 	// all players who are playing can discard cards and draw
