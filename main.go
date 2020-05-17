@@ -26,6 +26,9 @@ func main() {
 	remainingDeck, players := deck.Deal()
 	fmt.Println(players)
 
+	// Player 1 is dealer
+	players.SelectDealer()
+
 	// All players add 0.50
 	table = table.PotAddAll(players)
 
@@ -43,6 +46,11 @@ func main() {
 	// 	log.Printf("player %d: %s", i, players[i].Hand)
 	// }
 
+	// Place the remaining deck on the table
+	table.Leftovers = remainingDeck
+	// Empty remainingDeck
+	remainingDeck = nil
+
 	// players decide to play the round, or not
 	// ask players if they want to play
 	players = players.PlayRound()
@@ -50,16 +58,28 @@ func main() {
 	for i := range players {
 		if players[i].Playing == true {
 			log.Printf("player %d: %s", i, players[i].Hand)
+		} else {
+			// create discard pile
+			// of hands of players not playing the round
+			table.Discards = append(table.Discards, players[i].Hand...)
 		}
 	}
 
-	// create discard pile
-	// of hands of players not playing the round
+	fmt.Println(players)
 
 	// all players who are playing can discard cards and draw
 	// firstly from the leftovers, then the discard pile (shuffled)
-
-	// dealer discards 6th card so he has 5 cards
+	for i := range players {
+		if players[i].Playing == true {
+			players[i], table = players[i].ExchangeCards(i, table)
+		}
+		fmt.Println("Player: ", i, "; Table: ", table)
+		// dealer discards 6th card so he has 5 cards
+		if players[i].IsDealer == true {
+			players[i], table = players[i].DealerDiscard(i, table)
+			fmt.Println("Player: ", i, "; Table: ", table)
+		}
+	}
 
 	// dealer player number + 1 starts by playing a card
 	// the remaining players play a card

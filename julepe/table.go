@@ -4,9 +4,10 @@ package julepe
 //   card leftovers from dealing as well
 //   as the discard pile
 type Table struct {
-	Pot       float32
-	Leftovers []Card
-	Discards  []Card
+	Pot              float32
+	Leftovers        Deck
+	Discards         Deck
+	ExchangeDiscards Deck
 }
 
 // PotAddAll adds 0.50 from all players to the pot
